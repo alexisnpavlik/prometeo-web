@@ -29,6 +29,23 @@ jobs:
       - name: Setup Pages
         uses: actions/configure-pages@v5
 
+      # La access key de Web3Forms no vive en el repo: se inyecta acá desde
+      # Secrets. Igual queda visible en el HTML publicado (es inevitable en un
+      # sitio estático), pero no la levantan los bots que escanean repos.
+      - name: Inyectar access key de Web3Forms
+        env:
+          WEB3FORMS_KEY: ${{ secrets.WEB3FORMS_KEY }}
+        run: |
+          if [ -z "$WEB3FORMS_KEY" ]; then
+            echo "::error::Falta el secret WEB3FORMS_KEY — el formulario de demo no funcionaría."
+            exit 1
+          fi
+          sed -i "s|__WEB3FORMS_KEY__|$WEB3FORMS_KEY|g" index.html
+          if grep -q "__WEB3FORMS_KEY__" index.html; then
+            echo "::error::El placeholder __WEB3FORMS_KEY__ no se reemplazó."
+            exit 1
+          fi
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:

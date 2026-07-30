@@ -82,7 +82,7 @@
 .member p{font-size:14px;color:var(--dark-muted);margin-top:10px;}
 
 /* ---------- Precios ---------- */
-.pricing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;align-items:stretch;}
+.pricing-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px;align-items:stretch;max-width:840px;margin:0 auto;}
 .plan{
   background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
   padding:36px 30px;display:flex;flex-direction:column;position:relative;
@@ -95,10 +95,7 @@
 }
 .plan h3{font-size:21px;font-weight:600;}
 .plan .for{font-size:14.5px;color:var(--muted);margin-top:6px;min-height:44px;}
-.plan .price{margin:22px 0 4px;font-family:var(--font-display);}
-.plan .price b{font-size:36px;font-weight:600;letter-spacing:-0.02em;}
-.plan .price span{font-size:14px;color:var(--muted);font-family:var(--font-body);}
-.plan ul{margin:24px 0 30px;display:flex;flex-direction:column;gap:12px;flex:1;}
+.plan ul{margin:28px 0 30px;display:flex;flex-direction:column;gap:12px;flex:1;}
 .plan li{font-size:15px;color:var(--ink-soft);display:flex;gap:11px;align-items:baseline;}
 .plan li::before{
   content:"";flex:none;width:8px;height:9px;transform:translateY(1px);
@@ -131,6 +128,15 @@
 .demo-form input:focus,.demo-form select:focus{border-color:var(--fire);}
 .demo-form .row{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
 .demo-form .btn{margin-top:6px;}
+.demo-form .hp{position:absolute;left:-9999px;opacity:0;width:0;height:0;}
+.demo-form .btn[disabled]{opacity:.6;pointer-events:none;}
+.form-err{
+  display:none;font-size:14px;color:#ff9a76;
+  background:rgba(247,103,7,.10);border:1px solid rgba(247,103,7,.35);
+  border-radius:10px;padding:12px 14px;
+}
+.form-err.show{display:block;}
+.form-err a{color:var(--cyan-light);}
 .form-ok{
   display:none;text-align:center;padding:30px 10px;
 }

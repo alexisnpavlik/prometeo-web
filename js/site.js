@@ -61,13 +61,56 @@
   revealCheck();
   setTimeout(revealCheck, 400);
 
-  // Formulario de demo
+  // Formulario de demo — envío real vía Web3Forms
   var form = document.getElementById('demoForm');
-  form.addEventListener('submit', function (e) {
-    e.preventDefault();
-    Array.prototype.forEach.call(form.querySelectorAll('.row, label, input, select, button[type="submit"], h3'), function (el) {
+  var btn = document.getElementById('formSubmit');
+  var err = document.getElementById('formErr');
+  var btnLabel = btn.textContent;
+
+  function showSuccess() {
+    Array.prototype.forEach.call(form.querySelectorAll('.row, label, input, select, button[type="submit"], h3, .form-err'), function (el) {
       el.style.display = 'none';
     });
     document.getElementById('formOk').classList.add('show');
+  }
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    err.classList.remove('show');
+
+    // En producción el deploy reemplaza el placeholder por el secret.
+    // En local se toma de localStorage: localStorage.setItem('w3fkey','...')
+    var keyField = form.querySelector('input[name="access_key"]');
+    if (keyField.value === '__WEB3FORMS_KEY__') {
+      var devKey = window.localStorage && localStorage.getItem('w3fkey');
+      if (!devKey) {
+        console.warn('[Prometeo] Sin access key. Para probar en local: localStorage.setItem("w3fkey","tu-key") y recargá.');
+        err.classList.add('show');
+        return;
+      }
+      keyField.value = devKey;
+    }
+
+    btn.disabled = true;
+    btn.textContent = 'Enviando…';
+
+    fetch(form.action, {
+      method: 'POST',
+      headers: { 'Accept': 'application/json' },
+      body: new FormData(form)
+    })
+      .then(function (res) { return res.json(); })
+      .then(function (data) {
+        if (data.success) {
+          showSuccess();
+        } else {
+          throw new Error(data.message || 'error');
+        }
+      })
+      .catch(function () {
+        err.classList.add('show');
+        btn.disabled = false;
+        btn.textContent = btnLabel;
+      });
   });
 })();

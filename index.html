@@ -200,26 +200,13 @@
     <div class="section-head reveal">
       <p class="kicker">Planes</p>
       <h2>Un plan para cada etapa</h2>
-      <p class="sub">Valores de referencia — cada proyecto se cotiza según alcance. Ajustá estos precios a tu realidad.</p>
+      <p class="sub">Cada proyecto se cotiza según su alcance. Contanos tu caso y armamos una propuesta a medida.</p>
     </div>
     <div class="pricing-grid">
-      <article class="plan reveal">
-        <h3>Despegue</h3>
-        <p class="for">Para startups y equipos chicos que arrancan con Odoo.</p>
-        <p class="price"><b>Desde USD 3.500</b> <span>proyecto inicial</span></p>
-        <ul>
-          <li>Hasta 3 módulos estándar</li>
-          <li>Migración de datos básica</li>
-          <li>Capacitación inicial</li>
-          <li>30 días de acompañamiento</li>
-        </ul>
-        <a href="#demo" class="btn btn-ghost">Consultar</a>
-      </article>
       <article class="plan featured reveal">
         <span class="flag">Más elegido</span>
         <h3>Crecimiento</h3>
         <p class="for">Para PyMEs que necesitan integrar toda su operación.</p>
-        <p class="price"><b>Desde USD 9.000</b> <span>proyecto inicial</span></p>
         <ul>
           <li>Módulos a medida del negocio</li>
           <li>Integraciones (AFIP, bancos, e-commerce)</li>
@@ -232,7 +219,6 @@
       <article class="plan reveal">
         <h3>Corporativo</h3>
         <p class="for">Para grupos y empresas con operaciones complejas.</p>
-        <p class="price"><b>A medida</b> <span>según alcance</span></p>
         <ul>
           <li>Multi-compañía y consolidación</li>
           <li>Desarrollos e integraciones complejas</li>
@@ -258,22 +244,28 @@
         <li>Respuesta en menos de 24 hs</li>
       </ul>
     </div>
-    <form class="demo-form reveal" id="demoForm">
+    <form class="demo-form reveal" id="demoForm" action="https://api.web3forms.com/submit" method="POST">
       <h3>Agendar una demo</h3>
+      <input type="hidden" name="access_key" value="__WEB3FORMS_KEY__">
+      <input type="hidden" name="subject" value="Nuevo pedido de demo — prometeo.com.ar">
+      <input type="hidden" name="from_name" value="Web Prometeo">
+      <input type="checkbox" name="botcheck" class="hp" tabindex="-1" autocomplete="off">
       <div class="row">
-        <div><label for="f-nombre">Nombre</label><input id="f-nombre" type="text" required placeholder="Tu nombre"></div>
-        <div><label for="f-empresa">Empresa</label><input id="f-empresa" type="text" required placeholder="Tu empresa"></div>
+        <div><label for="f-nombre">Nombre</label><input id="f-nombre" name="nombre" type="text" required placeholder="Tu nombre"></div>
+        <div><label for="f-empresa">Empresa</label><input id="f-empresa" name="empresa" type="text" required placeholder="Tu empresa"></div>
       </div>
-      <div><label for="f-email">Email</label><input id="f-email" type="email" required placeholder="nombre@empresa.com"></div>
+      <div><label for="f-email">Email</label><input id="f-email" name="email" type="email" required placeholder="nombre@empresa.com"></div>
+      <div><label for="f-telefono">Teléfono / WhatsApp</label><input id="f-telefono" name="telefono" type="tel" placeholder="+54 9 ..."></div>
       <div><label for="f-interes">¿Qué te interesa?</label>
-        <select id="f-interes">
+        <select id="f-interes" name="interes">
           <option>Implementar Odoo desde cero</option>
           <option>Migrar de versión</option>
           <option>Integraciones</option>
           <option>Soporte / mejorar mi Odoo actual</option>
         </select>
       </div>
-      <button type="submit" class="btn btn-fire">Quiero mi demo</button>
+      <button type="submit" class="btn btn-fire" id="formSubmit">Quiero mi demo</button>
+      <p class="form-err" id="formErr">No pudimos enviar tu pedido. Escribinos a <a href="mailto:alexis.medn@gmail.com">alexis.medn@gmail.com</a> y lo resolvemos.</p>
       <div class="form-ok" id="formOk">
         <b>¡Listo! Recibimos tu pedido.</b>
         <p>Te escribimos en menos de 24 hs para coordinar día y horario.</p>
