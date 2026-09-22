@@ -61,6 +61,65 @@
   revealCheck();
   setTimeout(revealCheck, 400);
 
+  // Pasarela continua: scroll nativo para conservar gestos táctiles y teclado.
+  var marquee = document.getElementById('clientsMarquee');
+  if (marquee) {
+    var track = marquee.querySelector('.cases-grid');
+    var originals = Array.prototype.slice.call(track.children);
+    var motion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    var hovered = false;
+    var touching = false;
+    var resumeAt = 0;
+    var previousTime = 0;
+    var position = 0;
+    var firstCopy = null;
+
+    /** Mantiene una sola lista accesible y respeta la preferencia de movimiento. */
+    function configureMarquee() {
+      track.querySelectorAll('[data-copy]').forEach(function (copy) { copy.remove(); });
+      firstCopy = null;
+      if (!motion.matches) {
+        originals.forEach(function (card) {
+          var copy = card.cloneNode(true);
+          copy.setAttribute('data-copy', '');
+          copy.setAttribute('aria-hidden', 'true');
+          copy.querySelectorAll('a').forEach(function (link) { link.tabIndex = -1; });
+          track.appendChild(copy);
+          if (!firstCopy) firstCopy = copy;
+        });
+      }
+      marquee.scrollLeft = 0;
+      position = 0;
+    }
+    marquee.addEventListener('mouseenter', function () { hovered = true; });
+    marquee.addEventListener('mouseleave', function () { hovered = false; });
+    marquee.addEventListener('pointerdown', function () { touching = true; });
+    window.addEventListener('pointerup', function () { touching = false; resumeAt = performance.now() + 2000; });
+    window.addEventListener('pointercancel', function () { touching = false; });
+    marquee.addEventListener('wheel', function () { resumeAt = performance.now() + 2000; }, { passive: true });
+    motion.addEventListener('change', configureMarquee);
+    configureMarquee();
+
+    /** Avanza a velocidad constante y empalma la copia con la primera tarjeta. */
+    function animateMarquee(time) {
+      var delta = previousTime ? Math.min(time - previousTime, 50) : 0;
+      previousTime = time;
+      var bounds = marquee.getBoundingClientRect();
+      var visible = bounds.bottom > 0 && bounds.top < window.innerHeight;
+      if (firstCopy && visible && !document.hidden && !hovered && !touching &&
+          !marquee.contains(document.activeElement) && time > resumeAt) {
+        var loopWidth = firstCopy.offsetLeft - originals[0].offsetLeft;
+        position += delta * 0.028;
+        if (loopWidth > 0) position %= loopWidth;
+        marquee.scrollLeft = position;
+      } else {
+        position = marquee.scrollLeft;
+      }
+      window.requestAnimationFrame(animateMarquee);
+    }
+    window.requestAnimationFrame(animateMarquee);
+  }
+
   // Formulario de demo — envío real vía Web3Forms
   var form = document.getElementById('demoForm');
   var btn = document.getElementById('formSubmit');

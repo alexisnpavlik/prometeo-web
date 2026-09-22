@@ -29,24 +29,25 @@
 .step h3{font-size:19px;font-weight:600;margin-bottom:10px;}
 .step p{font-size:15px;color:var(--muted);}
 
-/* ---------- Casos de éxito ---------- */
-.cases-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
+/* ---------- Clientes ---------- */
+.clients-marquee{overflow-x:auto;padding:8px 4px 24px;scrollbar-width:thin;scrollbar-color:var(--line) transparent;}
+.clients-marquee:focus-visible{outline:2px solid var(--fire-deep);outline-offset:5px;}
+.cases-grid{display:flex;gap:20px;width:max-content;}
+.cases-grid .case{width:280px;flex:0 0 280px;}
+.clients-controls{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-top:18px;font-size:13px;color:var(--muted);flex-wrap:wrap;}
+@media (prefers-reduced-motion:reduce){.clients-marquee .case{transition:none;}.clients-marquee .case:hover{transform:none;}}
 .case{
   background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
   overflow:hidden;display:flex;flex-direction:column;transition:transform .25s,box-shadow .25s;
 }
 .case:hover{transform:translateY(-4px);box-shadow:0 16px 40px rgba(28,20,16,.08);}
-.case-img{
-  aspect-ratio:16/9;
-  background:repeating-linear-gradient(-45deg,var(--paper-warm) 0 14px,#EDE4D8 14px 28px);
-  display:grid;place-items:center;
-}
-.case-img code{font-size:12px;color:var(--muted);background:rgba(255,255,255,.7);padding:4px 10px;border-radius:6px;}
 .case-body{padding:26px 26px 28px;display:flex;flex-direction:column;gap:12px;flex:1;}
+.client-logo{display:block;width:180px;max-width:100%;height:180px;object-fit:contain;align-self:center;border-radius:24px;}
 .case-tag{font-family:var(--font-display);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--cyan);font-weight:500;}
 .case h3{font-size:19px;font-weight:600;}
-.case p{font-size:15px;color:var(--muted);flex:1;}
-.case .result{font-family:var(--font-display);font-size:15px;font-weight:600;color:var(--fire-deep);}
+.case-link{font-size:15px;font-weight:600;color:var(--fire-deep);margin-top:auto;padding-top:12px;align-self:flex-start;text-decoration:underline;text-underline-offset:4px;}
+.case-link:hover{text-decoration-thickness:2px;}
+.case-link:focus-visible{outline:2px solid var(--fire-deep);outline-offset:4px;border-radius:2px;}
 
 /* ---------- Por qué Prometeo ---------- */
 .whyname{background:var(--paper-warm);}
@@ -149,7 +150,7 @@
   .hero-grid{grid-template-columns:1fr;gap:48px;}
   .hero-mark{order:-1;}
   .hero-mark img{width:200px;}
-  .services-grid,.cases-grid,.pricing-grid{grid-template-columns:1fr 1fr;}
+  .services-grid,.pricing-grid{grid-template-columns:1fr 1fr;}
   .steps{grid-template-columns:1fr 1fr;border-top:none;}
   .step{border-top:1px solid var(--line);border-right:none;padding-left:0;}
   .cta-inner{grid-template-columns:1fr;gap:48px;}
@@ -158,7 +159,7 @@
 }
 @media (max-width:640px){
   .container{padding:0 20px;}
-  .services-grid,.cases-grid,.pricing-grid,.steps{grid-template-columns:1fr;}
+  .services-grid,.pricing-grid,.steps{grid-template-columns:1fr;}
   .nav-links{
     display:none;position:absolute;top:76px;left:0;right:0;
     background:var(--dark);border-bottom:1px solid var(--dark-line);
